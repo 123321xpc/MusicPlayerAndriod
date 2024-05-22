@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".atcivity.MainAct"
+    >
+
+<!--        标题栏-->
+    <LinearLayout
+        android:id="@+id/title_bar"
+        android:background="@color/theme_bgc"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginBottom="5dp">
+
+        <TextView
+            android:id="@+id/tv_title_left"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="xhf音乐"
+            android:layout_marginLeft="15dp"
+            android:layout_gravity="center"
+            android:textSize="20sp"
+            android:src="@mipmap/ic_topbanner_logo">
+        </TextView>
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp">
+
+            <EditText
+                android:hint="搜索歌曲、歌手"
+                android:background="@drawable/search_bg"
+                android:layout_width="560dp"
+                android:layout_height="wrap_content"
+                android:textSize="15sp"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:id="@+id/search"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp">
+            </EditText>
+
+            <TextView
+                android:id="@+id/search_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="26sp"
+                android:paddingRight="5dp"
+                android:layout_alignRight="@id/search"></TextView>
+
+        </RelativeLayout>
+
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="30sp"
+            android:textColor="@color/theme_color"
+            android:text="播放记录"
+            android:layout_gravity="center"
+            android:layout_marginRight="10dp"
+            android:id="@+id/record_icon"
+            ></TextView>
+
+
+    </LinearLayout>
+
+    <FrameLayout
+        android:id="@+id/fl_container"
+        android:layout_weight="1"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        >
+
+    </FrameLayout>
+
+<!--    下方UI-->
+    <RadioGroup
+        android:id="@+id/botton_ui_rg"
+        android:layout_marginTop="5dp"
+        android:gravity="center"
+        android:background="@color/theme_bgc"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+
+        <RadioButton
+            android:id="@+id/local_music_btn"
+            style="@style/bottom_ui_btns_style_unselcted"
+            ></RadioButton>
+
+        <RadioButton
+            android:id="@+id/net_music_btn"
+            style="@style/bottom_ui_btns_style_unselcted"
+            ></RadioButton>
+
+        <RadioButton
+            android:id="@+id/news_btn"
+            style="@style/bottom_ui_btns_style_unselcted"
+            ></RadioButton>
+
+
+        <RadioButton
+            android:id="@+id/me_btn"
+            style="@style/bottom_ui_btns_style_unselcted"
+            ></RadioButton>
+    </RadioGroup>
+
+</LinearLayout>

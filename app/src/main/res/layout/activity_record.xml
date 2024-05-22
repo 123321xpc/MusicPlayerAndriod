@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal">
+
+    <TextView
+        android:id="@+id/record_back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="返回"
+        android:paddingTop="5dp"
+        android:textSize="20sp"></TextView>
+
+    <TextView
+        android:id="@+id/record_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="播放记录"
+        android:textAlignment="center"
+        android:layout_marginBottom="20dp"
+        android:textSize="24sp"></TextView>
+
+    <ListView
+        android:id="@+id/record_list_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/record_title"></ListView>
+
+</RelativeLayout>

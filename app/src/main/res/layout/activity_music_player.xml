@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@mipmap/player_base_bg"
+    tools:context=".atcivity.MusicPlayerAct">
+
+    <TextView
+        android:id="@+id/tv_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="歌名"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="30dp"
+        android:textColor="#FFFFFF"
+        android:textSize="20sp"></TextView>
+
+    <TextView
+        android:id="@+id/tv_singer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="歌手"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="65dp"
+        android:textColor="#FFFFFF"
+        android:textSize="15sp"></TextView>
+    
+    <cn.practice.myapplication.view.LyricView
+        android:id="@+id/tv_lyric"
+        android:layout_width="match_parent"
+        android:layout_height="400dp"
+        android:layout_below="@id/tv_singer"
+        android:layout_marginTop="15dp"
+        ></cn.practice.myapplication.view.LyricView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="15dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tv_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="15dp"
+            android:textColor="#ffffff"
+            android:text="00:00 / 00:00"
+            android:layout_gravity="right"></TextView>
+
+        <SeekBar
+            android:id="@+id/tv_seekbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:maxHeight="5dp"
+            android:paddingBottom="10dp"
+            android:progress="20"
+            android:progressDrawable="@drawable/progress_horizontal"
+            android:minHeight="5dp"></SeekBar>
+
+        <LinearLayout
+            android:layout_marginRight="15dp"
+            android:layout_marginLeft="15dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/tv_mode"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textSize="@dimen/music_bottom_icon_text_size"
+                android:textColor="@drawable/music_player_bottom_icon"
+                android:layout_weight="1"
+                android:text="模式"></TextView>
+            <TextView
+                android:id="@+id/tv_last"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/music_bottom_icon_text_size"
+                android:textColor="@drawable/music_player_bottom_icon"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="上一曲"></TextView>
+            <TextView
+                android:id="@+id/tv_play"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textSize="@dimen/music_bottom_icon_text_size"
+                android:textColor="@drawable/music_player_bottom_icon"
+                android:gravity="center"
+                android:text="播放"></TextView>
+            <TextView
+                android:id="@+id/tv_next"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textSize="@dimen/music_bottom_icon_text_size"
+                android:textColor="@drawable/music_player_bottom_icon"
+                android:gravity="center"
+                android:text="下一曲"></TextView>
+            <TextView
+                android:id="@+id/tv_list"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textSize="@dimen/music_bottom_icon_text_size"
+                android:textColor="@drawable/music_player_bottom_icon"
+                android:gravity="center"
+                android:text="列表"></TextView>
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+</RelativeLayout>

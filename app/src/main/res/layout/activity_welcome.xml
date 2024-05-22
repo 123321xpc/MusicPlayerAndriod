@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".atcivity.WelcomeAct"
+    >
+
+    <ImageView
+        android:id="@+id/welcome_img"
+        android:layout_centerInParent="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@mipmap/login_icon"></ImageView>
+
+    <LinearLayout
+        android:layout_below="@+id/welcome_img"
+        android:layout_centerHorizontal="true"
+        android:gravity="center"
+        android:layout_marginTop="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <ProgressBar
+            android:id="@+id/welcome_progress"
+            android:layout_width="30dp"
+            android:layout_marginRight="3dp"
+            android:layout_height="30dp"></ProgressBar>
+
+        <TextView
+            android:id="@+id/welcome_title"
+            android:layout_width="wrap_content"
+            android:textSize="22sp"
+            android:layout_height="wrap_content"
+            android:text="正在启动. . ."></TextView>
+    </LinearLayout>
+
+
+
+</RelativeLayout>
