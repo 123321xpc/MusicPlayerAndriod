@@ -77,8 +77,6 @@ public class LyricView extends androidx.appcompat.widget.AppCompatTextView {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-
-
         if(lyrics!= null && lyrics.size() > 0){
 
             // 歌词上移

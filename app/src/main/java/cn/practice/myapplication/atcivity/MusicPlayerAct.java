@@ -1,9 +1,7 @@
 package cn.practice.myapplication.atcivity;
 
-import static android.app.PendingIntent.getActivity;
-
 import androidx.appcompat.app.AppCompatActivity;
-
+import android.annotation.SuppressLint;
 import android.content.ComponentName;
 import android.content.Intent;
 import android.content.ServiceConnection;
@@ -33,6 +31,7 @@ import org.xutils.x;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ListIterator;
 
 import cn.practice.myapplication.R;
 import cn.practice.myapplication.bean.MusicItem;
@@ -46,62 +45,38 @@ import cn.practice.myapplication.util.ShareUtils;
 import cn.practice.myapplication.view.LyricView;
 
 public class MusicPlayerAct extends AppCompatActivity {
-
-
     @ViewInject(R.id.tv_time)
     private TextView time;
-
     @ViewInject(R.id.tv_mode)
     private TextView mode;
-
     @ViewInject(R.id.tv_last)
     private TextView previous;
-
     @ViewInject(R.id.tv_play)
     private TextView play;
-
     @ViewInject(R.id.tv_next)
     private TextView next;
-
     @ViewInject(R.id.tv_list)
     private TextView list;
-
     @ViewInject(R.id.tv_seekbar)
     private SeekBar seekBar;
-
     @ViewInject(R.id.tv_name)
     private TextView MusicName;
-
     @ViewInject(R.id.tv_singer)
     private TextView singer;
-
     @ViewInject(R.id.tv_lyric)
     private LyricView lyricView;
-
     private BottomSheetDialog bottomSheetDialog;
-
     List<MusicItem> localMusicList;
-
     private ListView listView;
-
-
     private int position;
-
-    private ArrayList<PlayMode>playModelList;
-
     private int playMode;
-
     private boolean comeFromNotification;
-
-
     private IMusicPlayerService service;
-
     private static final int PROGRESS_UPDATE = 1;
     private static final int GET_ALL_LOCAL_MUSIC =4;
-
-
+    private static final int SHOW_LYRIC = 2;
+    private static final int GET_LYRIC = 3;
     private ServiceConnection connection = new ServiceConnection() {
-
         // 绑定服务成功时回调
         @Override
         public void onServiceConnected(ComponentName componentName, IBinder iBinder) {
@@ -132,9 +107,6 @@ public class MusicPlayerAct extends AppCompatActivity {
             }
         }
     };
-    private static final int SHOW_LYRIC = 2;
-    private static final int GET_LYRIC = 3;
-
     private void showData() {
         try{
             singer.setText(service.getSingerName());
@@ -146,7 +118,6 @@ public class MusicPlayerAct extends AppCompatActivity {
         }
 
     }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -155,9 +126,7 @@ public class MusicPlayerAct extends AppCompatActivity {
         bindAndStartService();
         initData();
         initView();
-
     }
-
     private void bindAndStartService() {
         Intent intent = new Intent(this, MusicPlayerService.class);
         // 绑定服务
@@ -168,12 +137,9 @@ public class MusicPlayerAct extends AppCompatActivity {
     }
 
     public void initData() {
-
         comeFromNotification = getIntent().getBooleanExtra("Notification", false);
         localMusicList = new MusicUtils().scanLocalMusic(getApplicationContext().getContentResolver());
-
         if(!comeFromNotification) {
-
             String name = getIntent().getStringExtra("name");
             if (name != null) {
                 for (int i=0;i<localMusicList.size();i++) {
@@ -187,24 +153,15 @@ public class MusicPlayerAct extends AppCompatActivity {
             }else{
                 position = getIntent().getIntExtra("position", 0);
             }
-
         }
-
-
         playMode = ShareUtils.getPlayMode(this, "play_mode");
-
         // 注册
         EventBus.getDefault().register(this);
-
         // 发消息：更新歌词
         handler.sendEmptyMessage(GET_LYRIC);
         // 发消息: 开始歌词同步
         handler.sendEmptyMessage(SHOW_LYRIC);
-
-
     }
-
-
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void ChangeMusic(Intent intent){
         String action = intent.getAction();
@@ -224,12 +181,11 @@ public class MusicPlayerAct extends AppCompatActivity {
         }
     }
 
-
+    @SuppressLint("HandlerLeak")
     private Handler handler = new Handler(){
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-
             try {
                 if(msg.what == PROGRESS_UPDATE){
                     int currentPosition = service.getCurrentPosition();
@@ -253,9 +209,6 @@ public class MusicPlayerAct extends AppCompatActivity {
                     String songPath = service.getCurMusicPath();
                     String lyricPath = songPath.replace(".mp3", ".lrc");
                     File file = new File(lyricPath);
-                    Logger.d("lyricPath: " + lyricPath);
-
-                    Logger.d("file: " + file.exists());
                     lyricUtils.readLyricFile(file);
                     lyricView.setLyrics(lyricUtils.getLyricList());
                 }
@@ -265,10 +218,7 @@ public class MusicPlayerAct extends AppCompatActivity {
                     ListmusicListAdapter adapter = new ListmusicListAdapter();
                     listView = bottomSheetDialog.findViewById(R.id.list_music);
                     listView.setAdapter(adapter);
-
-
                     bottomSheetDialog.setCancelable(true);
-
                     list.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
@@ -277,7 +227,6 @@ public class MusicPlayerAct extends AppCompatActivity {
                     });
 
                     listView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
-
                         @Override
                         public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                             try {
@@ -304,7 +253,6 @@ public class MusicPlayerAct extends AppCompatActivity {
         IconUtils.setFontIcon(getApplicationContext(), next, "\ue7a5");
         IconUtils.setFontIcon(getApplicationContext(), list, "\ue86a");
 
-
         play.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -312,12 +260,10 @@ public class MusicPlayerAct extends AppCompatActivity {
                     try {
                         if(service.getIsPlaying()){      // 正在播放
                             service.pauseMusic();
-
                             // 图标换成播放图标
                             play.setText("\ue632");
                         }else{                       // 暂停播放
                             service.playMusic();
-
                             // 图标换成播放图标
                             play.setText("\ue633");
                         }
@@ -327,7 +273,6 @@ public class MusicPlayerAct extends AppCompatActivity {
                 }
             }
         });
-
         mode.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -345,11 +290,8 @@ public class MusicPlayerAct extends AppCompatActivity {
                 } catch (RemoteException e) {
                     throw new RuntimeException(e);
                 }
-
-
             }
         });
-
         previous.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -361,7 +303,6 @@ public class MusicPlayerAct extends AppCompatActivity {
 
             }
         });
-
         next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -372,12 +313,8 @@ public class MusicPlayerAct extends AppCompatActivity {
                 }
             }
         });
-
-
-
         // 设置进度条拖动
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-
             @Override
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
                 try{
@@ -399,27 +336,20 @@ public class MusicPlayerAct extends AppCompatActivity {
 
             }
         });
-
         handler.sendEmptyMessage(GET_ALL_LOCAL_MUSIC);
     }
-
     @Override
     protected void onDestroy() {
-
         // 停止发送消息
         handler.removeCallbacksAndMessages(null);
-
         // 解绑服务
         if(connection!= null){
             unbindService(connection);
             connection = null;
         }
-
         EventBus.getDefault().unregister(this);
-
         super.onDestroy();
     }
-
 
     private class ListmusicListAdapter extends BaseAdapter {
         @Override
@@ -442,7 +372,6 @@ public class MusicPlayerAct extends AppCompatActivity {
             ViewHolder viewHolder;
             if (view == null) {
                 view= getLayoutInflater().inflate((R.layout.list_local_music), null);
-
                 viewHolder = new ViewHolder();
                 viewHolder.musicName = (TextView) view.findViewById(R.id.list_music_name);
                 viewHolder.musicSinger = (TextView) view.findViewById(R.id.list_music_singer);

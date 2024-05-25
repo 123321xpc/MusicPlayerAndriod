@@ -28,13 +28,9 @@ public class MusicPlayerService extends Service {
 
     private List<MusicItem> musicList;
     private int position;
-
     private int playMode = PlayMode.LOOP.getIndex();
-
     private MusicItem currentMusic;
-
     private MediaPlayer mediaPlayer;
-
     private NotificationManager notificationManager;
 
     private boolean isPlaying = false;
@@ -44,26 +40,19 @@ public class MusicPlayerService extends Service {
     }
 
     private IMusicPlayerService.Stub stub = new IMusicPlayerService.Stub(){
-
         MusicPlayerService service = MusicPlayerService.this;
-
-
-
         @Override
         public void openMediaPlayer(int position) throws RemoteException {
             service.openMediaPlayer(position);
         }
-
         @Override
         public void playMusic() throws RemoteException {
             service.playMusic();
         }
-
         @Override
         public void pauseMusic() throws RemoteException {
             service.pauseMusic();
         }
-
         @Override
         public void stopMusic() throws RemoteException {
             service.stopMusic();
@@ -73,7 +62,6 @@ public class MusicPlayerService extends Service {
         public int getCurrentPosition() throws RemoteException {
             return service.getCurrentPosition();
         }
-
         @Override
         public int getMusicPosition() throws RemoteException {
             return service.getMusicPosition();
@@ -155,11 +143,9 @@ public class MusicPlayerService extends Service {
         super.onCreate();
         // 加载音乐列表
         getMusicList();
-
         playMode = ShareUtils.getPlayMode(this, "play_mode");
 
     }
-
     private void getMusicList() {
         musicList = new MusicUtils().scanLocalMusic(MusicPlayerService.this.getContentResolver());
     };
@@ -167,20 +153,14 @@ public class MusicPlayerService extends Service {
     // 打开媒体播放器
     private void openMediaPlayer(int position) {
         this.position = position;
-
             getMusicList();
             currentMusic = musicList.get(position);
-
             if (mediaPlayer != null) {
                 mediaPlayer.reset();
             }
-
             mediaPlayer = new MediaPlayer();
-
             try {
-
                 mediaPlayer.setDataSource(currentMusic.getPath());
-
                 mediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
                     @Override
                     public void onPrepared(MediaPlayer mp) {
@@ -189,9 +169,7 @@ public class MusicPlayerService extends Service {
                         playMusic();
                     }
                 });
-
                 mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-
                     @Override
                     public void onCompletion(MediaPlayer mediaPlayer) {
                         if(playMode == PlayMode.SINGLE.getIndex())
@@ -200,21 +178,17 @@ public class MusicPlayerService extends Service {
                             nextMusic();
                     }
                 });
-
                 mediaPlayer.setOnErrorListener(new MediaPlayer.OnErrorListener() {
-
                     @Override
                     public boolean onError(MediaPlayer mp, int what, int extra) {
                         nextMusic();
                         return true;
                     }
                 });
-
                 mediaPlayer.prepareAsync();
             } catch (Exception e) {
                 e.printStackTrace();
             }
-
     }
 
     // 通知音乐信息变化
@@ -222,27 +196,20 @@ public class MusicPlayerService extends Service {
         Intent intent = new Intent(action);
         EventBus.getDefault().post(intent);
     }
-
-
-
-
     // 播放音乐
     private void playMusic() {
         mediaPlayer.start();
-        isPlaying = true;
 
+        isPlaying = true;
         notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
         Intent intent = new Intent(getApplicationContext(), MusicPlayerAct.class);
         // 状态：用以区分是否是从通知栏进入播放页面
         intent.putExtra("Notification", true);
         PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(), 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-
         String channelId = "xhf_music_player_channel";
         NotificationChannel channel = new NotificationChannel(channelId, "xhf音乐播放器", NotificationManager.IMPORTANCE_DEFAULT);
         notificationManager.createNotificationChannel(channel);
         Notification.Builder builder = new Notification.Builder(getApplicationContext(), channelId);
-
-
         Notification notification = builder
                 .setContentTitle("xhf音乐播放器")
                 .setContentText("正在播放: " + currentMusic.getName() + " - " + currentMusic.getSinger())
@@ -250,11 +217,8 @@ public class MusicPlayerService extends Service {
                 .setContentIntent(pendingIntent)
                 .setOngoing(true)
                 .build();
-
         notificationManager.notify(1, notification);
     };
-
-
     private void pauseMusic() {
         notificationManager.cancel(1);
         mediaPlayer.pause();
@@ -279,10 +243,8 @@ public class MusicPlayerService extends Service {
     private int getMusicPosition() {
         return position;
     }
-
     // 下一曲
     private void nextMusic() {
-        Toast.makeText(this, PlayMode.getPlayMode(playMode).getMode(), Toast.LENGTH_SHORT).show();
         if (playMode != PlayMode.RANDOM.getIndex())
             position = (position + 1) % musicList.size();
         else{
@@ -291,10 +253,8 @@ public class MusicPlayerService extends Service {
                 currentPosition = MusicUtils.getRandomPosition(musicList.size());
             position = currentPosition;
         }
-
         openMediaPlayer(position);
     }
-
     // 上一曲
     private void previousMusic() {
         if(position == 0) Toast.makeText(this, "已经是第一首歌了", Toast.LENGTH_SHORT).show();
@@ -303,7 +263,6 @@ public class MusicPlayerService extends Service {
             openMediaPlayer(position);
         }
     }
-
     // 设置播放模式
     private void setPlayMode(int playMode) {
         this.playMode = playMode;
