@@ -20,6 +20,7 @@ import java.net.URL;
 import java.nio.charset.StandardCharsets;
 
 import cn.practice.myapplication.R;
+import cn.practice.myapplication.util.MusicUtils;
 
 public class EditDataActivity extends AppCompatActivity {
 
@@ -164,7 +165,7 @@ public class EditDataActivity extends AppCompatActivity {
 
     private boolean sendPostRequest(JSONObject jsonData) {
         try {
-            URL url = new URL("http://10.136.5.201:8080/login"); // Replace with your backend endpoint
+            URL url = new URL("http://" + MusicUtils.ip + ":8080/login"); // Replace with your backend endpoint
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("POST");
             conn.setRequestProperty("Content-Type", "application/json; utf-8");

@@ -24,6 +24,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import cn.practice.myapplication.R;
+import cn.practice.myapplication.util.MusicUtils;
 
 public class PrivateSetActivity extends AppCompatActivity {
 
@@ -147,7 +148,7 @@ public class PrivateSetActivity extends AppCompatActivity {
     private boolean sendPostRequest(JSONObject jsonData) {
         HttpURLConnection conn = null;
         try {
-            URL url = new URL("http://10.136.5.201:8080/login"); // Replace with your backend endpoint
+            URL url = new URL("http://" + MusicUtils.ip + ":8080/login"); // Replace with your backend endpoint
             conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("POST");
             conn.setRequestProperty("Content-Type", "application/json; utf-8");
