@@ -28,8 +28,8 @@ import cn.practice.myapplication.bean.NetMusicItem;
 public class MusicUtils {
 
     public static final int SHOW_MUSIC = 1;
-    private String ip = "10.136.13.182";
-//    private String ip = "10.81.66.218";    // wifi
+    public final static String ip = "10.136.11.177";
+//    public String ip = "10.81.66.218";    // wifi
 
 
 

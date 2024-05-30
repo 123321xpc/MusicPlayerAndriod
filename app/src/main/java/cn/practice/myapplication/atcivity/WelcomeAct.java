@@ -45,7 +45,7 @@ public class WelcomeAct extends AppCompatActivity {
         if(AllreadyStartAct) return;
 
         AllreadyStartAct = true;
-        startActivity(new Intent(WelcomeAct.this, MainAct.class));
+        startActivity(new Intent(WelcomeAct.this, LoginActivity.class));
         finish();
     }
 }

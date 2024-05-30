@@ -1,20 +1,111 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/rootViewLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="me_music"
-        tools:ignore="MissingConstraints"></TextView>
+    <!-- 头像占位符 -->
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/profileImageView"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:src="@android:color/darker_gray"
+        app:civ_border_width="2dp"
+        app:civ_border_color="#FF000000"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="60dp"/>
 
-    <Button
-        android:id="@+id/button_add_music"
+    <!-- 标题，位于头像下方 -->
+    <EditText
+        android:id="@+id/titleEditText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Add Music"
-        tools:ignore="MissingConstraints"/>
+        android:hint="请输入昵称"
+        android:textSize="12sp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintTop_toBottomOf="@+id/profileImageView"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <!-- 编辑资料 -->
+    <Button
+        android:id="@+id/editdata"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="编辑资料"
+        android:gravity="center"
+        android:padding="20dp"
+        android:background="@drawable/textview_border"
+        app:layout_constraintTop_toBottomOf="@+id/titleEditText"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="16dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"/>
+
+    <!-- 隐私设置 -->
+    <Button
+        android:id="@+id/privateset"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="隐私设置"
+        android:background="@drawable/textview_border"
+        android:gravity="center"
+        android:padding="20dp"
+        app:layout_constraintTop_toBottomOf="@+id/editdata"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="16dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"/>
+
+    <!-- 封面更换 -->
+    <Button
+        android:id="@+id/firstEditText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="封面更换"
+        android:gravity="center"
+        android:padding="20dp"
+        android:background="@drawable/textview_border"
+        app:layout_constraintTop_toBottomOf="@+id/privateset"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="16dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginBottom="40dp"/>
+
+    <!-- 分享按钮 -->
+    <Button
+        android:id="@+id/shareButton"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="分享"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/cancelButton"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="32dp"
+        app:layout_constraintTop_toBottomOf="@+id/firstEditText"/>
+
+    <!-- 退出按钮 -->
+    <Button
+        android:id="@+id/cancelButton"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="退出"
+        app:layout_constraintStart_toEndOf="@+id/shareButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginBottom="32dp"
+        app:layout_constraintTop_toBottomOf="@+id/firstEditText"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
