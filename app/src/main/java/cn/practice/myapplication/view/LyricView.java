@@ -114,7 +114,7 @@ public class LyricView extends androidx.appcompat.widget.AppCompatTextView {
                 canvas.drawText(text, (float)width / 2, Y, subPaint);
             }
         }else{
-            canvas.drawText("暂无歌词", (float)width / 2, (float)height / 2, paint);
+            canvas.drawText("暂无歌词，若本地有歌词文件，请重命名为歌曲名", (float)width / 2, (float)height / 2, paint);
         }
     }
 

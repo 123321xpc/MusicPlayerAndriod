@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -21,6 +22,9 @@ import android.widget.ImageView;
 import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.FileProvider;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -49,6 +53,8 @@ public class MePager extends BasePager {
 
     private String username;
     private boolean isLoggedIn;
+
+    private FragmentManager fragmentManager;
 
     @Override
     public void initData() {
@@ -116,37 +122,61 @@ public class MePager extends BasePager {
     }
 
     private void shareScreenshot() {
-        // 启用绘图缓存
-        rootView.setDrawingCacheEnabled(true);
-        Bitmap bitmap = Bitmap.createBitmap(rootView.getDrawingCache());
-        rootView.setDrawingCacheEnabled(false);
+        // 切换到目标Fragment并在完成后执行截图操作
+        changeFragment(new LocalMusicPager(), new Runnable() {
+            @Override
+            public void run() {
+                // 获取根视图
+                View rootView = getActivity().getWindow().getDecorView().getRootView();
+                // 启用绘图缓存
+                rootView.setDrawingCacheEnabled(true);
+                Bitmap bitmap = Bitmap.createBitmap(rootView.getDrawingCache());
+                rootView.setDrawingCacheEnabled(false);
 
-        try {
-            // 保存截图到外部缓存目录
-            File file = new File(getContext().getExternalCacheDir(), "screenshot.png");
-            FileOutputStream fos = new FileOutputStream(file);
-            bitmap.compress(Bitmap.CompressFormat.PNG, 90, fos);
-            fos.flush();
-            fos.close();
+                try {
+                    // 保存截图到外部缓存目录
+                    File file = new File(getContext().getExternalCacheDir(), "screenshot.png");
+                    FileOutputStream fos = new FileOutputStream(file);
+                    bitmap.compress(Bitmap.CompressFormat.PNG, 90, fos);
+                    fos.flush();
+                    fos.close();
 
-            // 获取文件的Uri
-            Uri uri = FileProvider.getUriForFile(getContext(), getContext().getPackageName() + ".provider", file);
+                    // 获取文件的Uri
+                    Uri uri = FileProvider.getUriForFile(getContext(), getContext().getPackageName() + ".provider", file);
 
-            // 创建一个分享意图
-            Intent shareIntent = new Intent();
-            shareIntent.setAction(Intent.ACTION_SEND);
-            shareIntent.setType("image/*");
-            shareIntent.putExtra(Intent.EXTRA_STREAM, uri);
-            shareIntent.setPackage("com.tencent.mm"); // 微信的包名
+                    // 创建一个分享意图
+                    Intent shareIntent = new Intent();
+                    shareIntent.setAction(Intent.ACTION_SEND);
+                    shareIntent.setType("image/*");
+                    shareIntent.putExtra(Intent.EXTRA_STREAM, uri);
+                    shareIntent.setPackage("com.tencent.mm"); // 微信的包名
 
-            // 启动分享活动
-            startActivity(Intent.createChooser(shareIntent, "分享截图"));
+                    // 启动分享活动
+                    startActivity(Intent.createChooser(shareIntent, "分享截图"));
 
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
     }
 
+    public void changeFragment(Fragment fragment, Runnable onComplete){
+        fragmentManager = getActivity().getSupportFragmentManager();
+        Fragment currentFragment = fragmentManager.findFragmentById(R.id.fl_container);
+        if (currentFragment != null && currentFragment.getClass().equals(fragment.getClass())) {
+            // 如果当前显示的页面就是要切换的页面，则不执行后续的页面切换逻辑
+            return;
+        }
+
+        FragmentTransaction ft = fragmentManager.beginTransaction();
+        ft.replace(R.id.fl_container, fragment);
+        ft.addToBackStack(null);
+        ft.commit();
+
+        // 使用Handler延迟执行回调，以确保Fragment切换完成
+        new Handler().postDelayed(onComplete, 500); // 延迟500毫秒
+    }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -234,8 +264,6 @@ public class MePager extends BasePager {
         username = loginPrefs.getString("username", null);
 
         if (!isLoggedIn || username == null) {
-            // Handle the case when the user is not logged in
-            // You may want to redirect the user to the login page
             Intent intent = new Intent(getActivity(), LoginActivity.class);
             startActivity(intent);
             getActivity().finish();
