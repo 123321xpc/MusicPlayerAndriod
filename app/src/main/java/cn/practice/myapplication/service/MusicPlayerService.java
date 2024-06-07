@@ -25,14 +25,12 @@ import cn.practice.myapplication.util.MusicUtils;
 import cn.practice.myapplication.util.ShareUtils;
 
 public class MusicPlayerService extends Service {
-
     private List<MusicItem> musicList;
     private int position;
     private int playMode = PlayMode.LOOP.getIndex();
     private MusicItem currentMusic;
     private MediaPlayer mediaPlayer;
     private NotificationManager notificationManager;
-
     private boolean isPlaying = false;
     public static final String MUSIC_CHANGE_ACTION = "cn.practice.musicplayer.MUSIC_CHANGE_ACTION";
 

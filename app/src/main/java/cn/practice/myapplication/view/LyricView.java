@@ -120,7 +120,10 @@ public class LyricView extends androidx.appcompat.widget.AppCompatTextView {
 
     public void setNextLyric(int currentPosition) {
         this.currentPosition = currentPosition;
-        if(lyrics == null || lyrics.size() == 0) return;
+        if(lyrics == null || lyrics.size() == 0) {
+            invalidate();
+            return;
+        }
 
         for(int i=1;i<lyrics.size();i++) {
             if(currentPosition < lyrics.get(i).getTime()){

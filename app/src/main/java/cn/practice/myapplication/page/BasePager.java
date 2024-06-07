@@ -12,21 +12,13 @@ import androidx.fragment.app.Fragment;
 import cn.practice.myapplication.R;
 
 public abstract class BasePager extends Fragment {
-
     public Context context;
-
     public int LayerId;
-
     public View rootView;
-
     public BasePager() {
         this.context = getContext();
     }
-
     public void initData(){
 
     }
-
-
-
 }

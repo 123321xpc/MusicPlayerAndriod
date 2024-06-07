@@ -4,6 +4,7 @@ package cn.practice.myapplication.page;
 import static androidx.core.content.ContextCompat.registerReceiver;
 import static cn.practice.myapplication.atcivity.MainAct.SEARCH_MUSIC;
 
+import android.annotation.SuppressLint;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -62,6 +63,8 @@ public class LocalMusicPager extends BasePager {
 
     private MusicListAdapter adapter;
 
+
+    @SuppressLint("HandlerLeak")
     private Handler mHandler = new Handler() {
         @Override
         public void handleMessage(android.os.Message msg) {
@@ -79,9 +82,7 @@ public class LocalMusicPager extends BasePager {
             }
             // 隐藏正在搜索提示
             searchingLayout.setVisibility(View.GONE);
-        }
-
-        ;
+        };
     };
 
 

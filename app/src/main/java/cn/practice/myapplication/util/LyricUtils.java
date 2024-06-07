@@ -34,9 +34,6 @@ public class LyricUtils {
                     }
                 }
 
-
-                Logger.d(lyricList.toString());
-
                 reader.close();
             } catch (Exception e) {
                 e.printStackTrace();
@@ -78,6 +75,9 @@ public class LyricUtils {
     }
 
     public ArrayList<Lyric> getLyricList() {
+        if(lyricList == null || lyricList.size() == 0) {
+            return null;
+        }
         return lyricList;
     }
 

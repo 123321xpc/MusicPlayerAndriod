@@ -28,8 +28,8 @@ import cn.practice.myapplication.bean.NetMusicItem;
 public class MusicUtils {
 
     public static final int SHOW_MUSIC = 1;
-    public final static String ip = "10.136.11.177";
-//    public String ip = "10.81.66.218";    // wifi
+    public final static String ip = "10.136.12.12";
+//    public final static String ip = "10.81.66.218";    // wifi
 
 
 
@@ -152,7 +152,6 @@ public class MusicUtils {
     public void getNetMusicList(Context context, MusicListCallback callback) {
         RequestParams params = new RequestParams("http://" + ip + ":8080/music/allmusic");
         x.http().get(params, new Callback.CommonCallback<String>() {
-
             @Override
             public void onSuccess(String result) {
                 ArrayList<NetMusicItem> netMusicList = new ArrayList<>();
@@ -181,17 +180,14 @@ public class MusicUtils {
                 callback.onMusicListLoaded(netMusicList);
 
             }
-
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {
                 Toast.makeText(context, "获取网络音乐列表失败，请重新进入页面！", Toast.LENGTH_SHORT).show();
             }
-
             @Override
             public void onCancelled(CancelledException cex) {
                 // 请求被取消时的处理
             }
-
             @Override
             public void onFinished() {
                 // 无论请求成功或失败都会执行的处理

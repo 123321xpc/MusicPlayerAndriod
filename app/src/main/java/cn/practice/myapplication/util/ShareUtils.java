@@ -14,12 +14,10 @@ public class ShareUtils {
         editor.putInt(key, mode);
         editor.apply();
     }
-
     public static int getPlayMode(Context context, String key) {
         SharedPreferences playMode = context.getSharedPreferences("play_mode", Context.MODE_PRIVATE);
         return playMode.getInt(key, 0);
     }
-
     public static void setSongNamePlayed(Context context, String key){
         SharedPreferences spf = context.getSharedPreferences("songsPlayed_set", Context.MODE_PRIVATE);
         Set<String> songsPlayedSet = spf.getStringSet("songsPlayed_set", null);
